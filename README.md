@@ -1,2 +1,2 @@
 # practice
-python practuce code
+python practice code
