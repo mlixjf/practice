@@ -1,4 +1,5 @@
 import math
+from functools import partial
 from operator import methodcaller
 
 class Point:
@@ -31,3 +32,4 @@ if __name__ == '__main__':
 
     points.sort(key=methodcaller("distance", 0, 0))
     print(points)
+    partial
