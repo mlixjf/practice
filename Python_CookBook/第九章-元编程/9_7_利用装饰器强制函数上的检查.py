@@ -8,7 +8,7 @@ def typeassert(*ty_type, **ty_kwargs):
     def decorate(func):
         signature = inspect.signature(func)
         bounds_type = signature.bind_partial(*ty_type, **ty_kwargs).arguments
-
+        print(bounds_type)
         @wraps(func)
         def wrapper(*args, **kwargs):
             bound_values = signature.bind(*args, **kwargs).arguments

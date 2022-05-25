@@ -38,7 +38,7 @@ class Test(object):
 
     @timer
     def test(self):
-        time.sleep(0.1)
+          time.sleep(0.1)
 
 
 def timestamp_to_str(timestamp: int) -> str:

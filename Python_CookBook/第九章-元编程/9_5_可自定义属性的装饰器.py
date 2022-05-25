@@ -1,5 +1,18 @@
 import logging
+import time
 from functools import partial, wraps
+
+
+def timethis(func):
+
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        result = func(*args, **kwargs)
+        stop = time.time()
+        print(func.__name__, ":", stop - start)
+        return result
+    return wrapper
 
 
 def attach_wrapper(obj, func=None):
@@ -11,13 +24,13 @@ def attach_wrapper(obj, func=None):
 
 def logged(level, name=None, message=None):
     def decorate(func):
-        log_name = name if name is not None else func.__module__
-        log = logging.getLogger(log_name)
-        log_message = message if message is not None else func.__name__
+        log_name = name if name is not None else func.__name__
+        logger = logging.getLogger(log_name)
+        log_message = message if message is not None else func.__module__
 
         @wraps(func)
         def wrapper(*args, **kwargs):
-            log.log(level, log_message)
+            logger.log(level, log_message)
             return func(*args, **kwargs)
 
         @attach_wrapper(wrapper)
@@ -26,24 +39,25 @@ def logged(level, name=None, message=None):
             level = new_level
 
         @attach_wrapper(wrapper)
-        def set_message(new_message):
+        def set_msg(new_message):
             nonlocal log_message
             log_message = new_message
+
         return wrapper
 
     return decorate
 
 
-logging.basicConfig(level=logging.DEBUG)
-
-
+@timethis
 @logged(logging.DEBUG)
 def add(x, y):
     return x + y
 
 
+logging.basicConfig(level=logging.DEBUG)
+
 if __name__ == '__main__':
-    add(1, 2)
+    add.set_msg('dsfdasfdsa')
     add.set_level(logging.INFO)
-    add.set_message("add test")
-    add(1, 2)
+    print(add(1, 2))
+
