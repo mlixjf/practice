@@ -83,6 +83,7 @@ if __name__ == '__main__':
 
     s = Stock("test", 100, 100.1)
     print(s.name)
+    print(s.__dict__)
     # s.name = 1
 
     temp = type_assert(name=str, shares=int, price=float)
