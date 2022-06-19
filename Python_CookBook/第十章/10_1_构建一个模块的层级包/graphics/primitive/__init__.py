@@ -1,0 +1,1 @@
+print("primitive 导入")
